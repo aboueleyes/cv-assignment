@@ -1,3 +1,4 @@
+import math
 from src.constants import COLOR_DEPTH
 from loguru import logger
 
@@ -70,3 +71,11 @@ def calculate_cumulative_histogram(histogram: list[int]) -> list[int]:
     for i in range(1, COLOR_DEPTH):
         cumulative_histogram[i] = cumulative_histogram[i - 1] + histogram[i]
     return cumulative_histogram
+
+
+def get_color_at_percentage(cumulative_histogram: list[int], percentage: int) -> tuple[int]:
+    logger.info(f"Getting color at percentage: {percentage}")
+    count = math.ceil(len(cumulative_histogram) * (percentage / 100))
+    start = cumulative_histogram[count - 1]
+    end = cumulative_histogram[-1] - cumulative_histogram[-count - 1]
+    return start, end
