@@ -79,3 +79,16 @@ def get_color_at_percentage(cumulative_histogram: list[int], percentage: int) ->
     start = cumulative_histogram[count - 1]
     end = cumulative_histogram[-1] - cumulative_histogram[-count - 1]
     return start, end
+
+
+def contrast_stretch(matrix: list[list[int]], a: int, b: int, c: int, d: int) -> list[list[int]]:
+    logger.info("Contrast stretching")
+    new_matrix = [[0 for _ in range(len(matrix[0]))] for _ in range(len(matrix))]
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            new_matrix[i][j] = (matrix[i][j] - c) * ((b - a) / (d - c)) + a
+            if new_matrix[i][j] < 0:
+                new_matrix[i][j] = 0
+            if new_matrix[i][j] > COLOR_DEPTH - 1:
+                new_matrix[i][j] = COLOR_DEPTH - 1
+    return new_matrix

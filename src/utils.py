@@ -14,13 +14,11 @@ def open_image_as_grayscale(path: str) -> Image:
 
 
 def convert_pillow_image_to_2d_matrix(image: Image) -> list[list[int]]:
-    # Get the dimensions of the image
+    logger.info("Converting pillow image to 2d matrix")
     width, height = image.size
 
-    # Create a 2D list to store the pixel values
     pixel_matrix = []
 
-    # Iterate through the image and store pixel values in the 2D list
     for y in range(height):
         row = []
         for x in range(width):
@@ -56,3 +54,11 @@ def plot_histogram(histogram: list[int], label: str = "") -> None:
     plt.ylabel("Frequency")
     plt.show()
     plt.savefig(f"{ASSETS_PATH}{label}_histogram.png")
+
+
+def show_image(image: Image) -> None:
+    """
+    Shows an image
+    """
+    logger.info("Showing image")
+    plt.imshow(image, cmap="gray")
