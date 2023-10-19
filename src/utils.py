@@ -62,3 +62,31 @@ def show_image(image: Image) -> None:
     """
     logger.info("Showing image")
     plt.imshow(image, cmap="gray")
+
+
+def plot_images_with_histograms(old_image: list[list[int]], new_image: list[list[int]], method: str):
+    from .services import calculate_cumulative_histogram, calculate_image_histogram
+
+    old_histogram = calculate_image_histogram(old_image)
+    old_cumulative_histogram = calculate_cumulative_histogram(old_histogram)
+
+    new_histogram = calculate_image_histogram(new_image)
+    new_cumulative_histogram = calculate_cumulative_histogram(new_histogram)
+
+    # 3 images, 2 rows
+    fig, axs = plt.subplots(3, 2, figsize=(15, 15))
+    fig.suptitle(f"{method} Processing")
+    axs[0, 0].imshow(old_image, cmap="gray")
+    axs[0, 0].set_title("Original Image")
+    axs[0, 1].plot(old_histogram)
+    axs[0, 1].set_title("Original Histogram")
+    axs[1, 0].imshow(new_image, cmap="gray")
+    axs[1, 0].set_title("Processed Image")
+    axs[1, 1].plot(new_histogram)
+    axs[1, 1].set_title("Processed Histogram")
+    axs[2, 0].plot(old_cumulative_histogram)
+    axs[2, 0].set_title("Original Cumulative Histogram")
+    axs[2, 1].plot(new_cumulative_histogram)
+    axs[2, 1].set_title("Processed Cumulative Histogram")
+    plt.show()
+    plt.savefig(f"{ASSETS_PATH}{method}_processing.png")
